@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 export default function Landing() {
   return (
     <div style={{ maxWidth: 640, margin: "80px auto", padding: "0 24px", fontFamily: "monospace" }}>
-      <h1>Medieval Arrowheads</h1>
+      <h1>European Iron Arrowheads</h1>
       <p style={{ marginTop: 12, color: "#555" }}>
         A catalogue of medieval European iron arrowheads classified by the
         Jessop (1996) typology.
       </p>
       <p style={{ marginTop: 8, color: "#555" }}>
-        This catalogue covers the 28 Jessop classifications. Each entry includes classification, dimensions,
+        Covers 28 Jessop classifications. Each entry includes classification, dimensions,
         cross-section, hafting method, and findspot where known.
       </p>
+
       <div style={{ marginTop: 40 }}>
         <Link
           to="/catalogue"
@@ -29,6 +30,29 @@ export default function Landing() {
           View Catalogue →
         </Link>
       </div>
+
+      <div style={{ marginTop: 60, paddingTop: 40, borderTop: "1px solid #eee" }}>
+        <p style={{ fontSize: 13, color: "#555" }}>
+          Have an arrowhead to contribute, a correction, or a question?
+        </p>
+        <a
+          href="mailto:arrowtypeswebsite@gmail.com"
+          style={{
+            display: "inline-block",
+            marginTop: 12,
+            fontSize: 13,
+            color: "#111",
+            textDecoration: "none",
+            borderBottom: "1px solid #111",
+          }}
+        >
+          Get in touch →
+        </a>
+      </div>
+
+      <p style={{ marginTop: 60, fontSize: 11, color: "#aaa" }}>
+        Jessop 1996
+      </p>
     </div>
   );
 }
