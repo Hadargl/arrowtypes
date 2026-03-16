@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Landing() {
   return (
     <div style={{ maxWidth: 640, margin: "80px auto", padding: "0 24px", fontFamily: "monospace" }}>
-      <h1>European Iron Arrowheads</h1>
+      <h1>Medieval Arrowheads</h1>
       <p style={{ marginTop: 12, color: "#555" }}>
         A catalogue of medieval European iron arrowheads classified by the
         Jessop (1996) typology.
