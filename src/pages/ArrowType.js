@@ -115,9 +115,8 @@ export default function ArrowType() {
 
         <div>
           <div style={label}>Plan View</div>
-          <ArrowImage jessop={type.jessop} name={type.name} />
-          <div style={{ marginTop: 8, fontSize: 10, color: "#aaa", textAlign: "center" }}>
-            {type.jessop} · not to scale
+          <ArrowImage key={type.jessop} jessop={type.jessop} name={type.name} /><div style={{ marginTop: 8, fontSize: 10, color: "#aaa", textAlign: "center" }}>
+            {type.jessop}
           </div>
         </div>
 
