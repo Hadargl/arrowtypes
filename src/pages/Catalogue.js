@@ -49,7 +49,9 @@ export default function Catalogue() {
                 {types.map((t) => (
                   <tr key={t.id} style={{ borderBottom: "1px solid #eee" }}>
                     <td style={{ padding: "7px 12px 7px 0", color: "#bbb" }}>{String(t.id).padStart(2, "0")}</td>
-                    <td style={{ padding: "7px 12px", fontWeight: "bold" }}>{t.jessop}</td>
+                    <td style={{ padding: "7px 12px", fontWeight: "bold" }}>
+                      <Link to={`/type/${t.id}`} style={{ color: "#111", textDecoration: "none" }}>{t.jessop}</Link>
+                    </td>
                     <td style={{ padding: "7px 12px" }}>{t.name}</td>
                     <td style={{ padding: "7px 12px", color: "#777", fontSize: 12 }}>{t.period}</td>
                     <td style={{ padding: "7px 12px", color: "#777", fontSize: 12 }}>{t.function}</td>
