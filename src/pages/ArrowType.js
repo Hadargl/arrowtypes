@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import arrowTypes from "../data/arrowTypes";
 import "./ArrowType.css";
@@ -69,6 +69,13 @@ function ArrowImage({ jessop, name }) {
 export default function ArrowType() {
   const { id } = useParams();
   const type = arrowTypes.find((t) => t.id === parseInt(id));
+
+  useEffect(() => {
+    if (!type) return;
+    document.title = `${type.jessop} — ${type.name} | Medieval Arrowheads`;
+    document.querySelector('meta[name="description"]')
+      ?.setAttribute("content", `${type.jessop} ${type.name}. ${type.description}`);
+  }, [type]);
 
   if (!type) return (
     <div style={{ maxWidth: 640, margin: "80px auto", padding: "0 24px", fontFamily: "monospace" }}>

@@ -1,3 +1,5 @@
-# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Sitemap: https://arrowtypes.com/sitemap.xml# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
