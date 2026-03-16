@@ -4,7 +4,7 @@ import arrowTypes from "../data/arrowTypes";
 const groups = ["Tanged", "Multi-Purpose", "Military", "Hunting"];
 
 const groupDescriptions = {
-  "Tanged":        "Tang-hafted forms. Early types, predominantly hunting.",
+  "Tanged":        "Tang-hafted forms. Early types.",
   "Multi-Purpose": "Socketed forms with mixed hunting and military use, including practice heads.",
   "Military":      "Socketed warheads and armour-piercing forms.",
   "Hunting":       "Specialist hunting forms: forkers, broadheads, bird bolts.",

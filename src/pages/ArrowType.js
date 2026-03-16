@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import arrowTypes from "../data/arrowTypes";
 
@@ -23,6 +24,44 @@ function Field({ l, v }) {
       <div style={label}>{l}</div>
       <div style={value}>{v}</div>
     </div>
+  );
+}
+
+function ArrowImage({ jessop, name }) {
+  const [missing, setMissing] = useState(false);
+
+  if (missing) {
+    return (
+      <div style={{
+        width: "100%",
+        aspectRatio: "1 / 2.5",
+        background: "#f5f5f5",
+        border: "1px solid #ddd",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#bbb",
+        fontSize: 11,
+        letterSpacing: "0.08em",
+        textAlign: "center",
+        lineHeight: 1.8,
+      }}>
+        No image<br />available<br /><br />{jessop}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={`${process.env.PUBLIC_URL}/images/${jessop}.png`}
+      alt={name}
+      onError={() => setMissing(true)}
+      style={{
+        width: "100%",
+        display: "block",
+        border: "1px solid #ddd",
+      }}
+    />
   );
 }
 
@@ -69,27 +108,12 @@ export default function ArrowType() {
       {/* Two column */}
       <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: 56 }}>
 
-        {/* Image placeholder */}
+        {/* Image */}
         <div>
           <div style={label}>Plan View</div>
-          <div style={{
-            width: "100%",
-            aspectRatio: "1 / 2.5",
-            background: "#f5f5f5",
-            border: "1px solid #ddd",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#bbb",
-            fontSize: 11,
-            letterSpacing: "0.08em",
-            textAlign: "center",
-            lineHeight: 1.8,
-          }}>
-            Image<br />Placeholder<br /><br />{type.jessop}
-          </div>
+          <ArrowImage jessop={type.jessop} name={type.name} />
           <div style={{ marginTop: 8, fontSize: 10, color: "#aaa", textAlign: "center" }}>
-            {type.jessop} · not to scale
+            {type.jessop}
           </div>
         </div>
 
