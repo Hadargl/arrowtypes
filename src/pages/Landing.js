@@ -6,10 +6,10 @@ export default function Landing() {
       <h1>European Iron Arrowheads</h1>
       <p style={{ marginTop: 12, color: "#555" }}>
         A catalogue of medieval European iron arrowheads classified by the
-        Jessop (1996) typology and the London Museum of Medieval Culture (LMMC) scheme.
+        Jessop (1996) typology.
       </p>
       <p style={{ marginTop: 8, color: "#555" }}>
-        Covers types M1–M16. Each entry includes classification, dimensions,
+        This catalogue covers the 28 Jessop classifications. Each entry includes classification, dimensions,
         cross-section, hafting method, and findspot where known.
       </p>
       <div style={{ marginTop: 40 }}>
@@ -29,9 +29,6 @@ export default function Landing() {
           View Catalogue →
         </Link>
       </div>
-      <p style={{ marginTop: 60, fontSize: 11, color: "#aaa" }}>
-        ARCHAEO/SYS · Jessop 1996 · LMMC 1940
-      </p>
     </div>
   );
 }
