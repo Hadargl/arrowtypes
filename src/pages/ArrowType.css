@@ -1,0 +1,12 @@
+.type-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 56px;
+}
+
+@media (max-width: 600px) {
+  .type-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}

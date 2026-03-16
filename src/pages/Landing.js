@@ -33,7 +33,7 @@ export default function Landing() {
 
       <div style={{ marginTop: 60, paddingTop: 40, borderTop: "1px solid #eee" }}>
         <p style={{ fontSize: 13, color: "#555" }}>
-          Have an arrowhead to contribute, a correction, or a question?
+          Have informatiob to contribute, a correction, or a question?
         </p>
         <a
           href="mailto:arrowtypeswebsite@gmail.com"
@@ -49,10 +49,6 @@ export default function Landing() {
           Get in touch →
         </a>
       </div>
-
-      <p style={{ marginTop: 60, fontSize: 11, color: "#aaa" }}>
-        Jessop 1996
-      </p>
     </div>
   );
 }

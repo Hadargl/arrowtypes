@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import arrowTypes from "../data/arrowTypes";
+import "./ArrowType.css";
 
 const label = {
   fontSize: 10,
@@ -82,7 +83,6 @@ export default function ArrowType() {
   return (
     <div style={{ maxWidth: 860, margin: "60px auto", padding: "0 24px", fontFamily: "monospace" }}>
 
-      {/* Breadcrumb */}
       <div style={{ marginBottom: 32, fontSize: 12, color: "#888", display: "flex", gap: 12 }}>
         <Link to="/" style={{ color: "#888", textDecoration: "none" }}>Home</Link>
         <span>/</span>
@@ -91,7 +91,6 @@ export default function ArrowType() {
         <span style={{ color: "#111" }}>{type.jessop} — {type.name}</span>
       </div>
 
-      {/* Header */}
       <div style={{ borderBottom: "2px solid #111", paddingBottom: 20, marginBottom: 40 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.15em", color: "#888", marginBottom: 8 }}>
           {type.group.toUpperCase()} · RECORD {String(type.id).padStart(2, "0")} OF {arrowTypes.length}
@@ -105,19 +104,16 @@ export default function ArrowType() {
         </div>
       </div>
 
-      {/* Two column */}
-      <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: 56 }}>
+      <div className="type-grid">
 
-        {/* Image */}
         <div>
           <div style={label}>Plan View</div>
           <ArrowImage jessop={type.jessop} name={type.name} />
           <div style={{ marginTop: 8, fontSize: 10, color: "#aaa", textAlign: "center" }}>
-            {type.jessop}
+            {type.jessop} · not to scale
           </div>
         </div>
 
-        {/* Data fields */}
         <div>
           <Field l="Jessop Type" v={type.jessop} />
           <Field l="Group" v={type.group} />
@@ -142,7 +138,6 @@ export default function ArrowType() {
         </div>
       </div>
 
-      {/* Prev / next */}
       <div style={{
         marginTop: 64,
         paddingTop: 24,
