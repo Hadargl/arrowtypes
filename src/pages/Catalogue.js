@@ -39,7 +39,7 @@ export default function Catalogue() {
                 <tr style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
                   <th style={{ padding: "6px 12px 6px 0", color: "#888", fontWeight: "normal", fontSize: 11 }}>#</th>
                   <th style={{ padding: "6px 12px", color: "#888", fontWeight: "normal", fontSize: 11 }}>JESSOP</th>
-                  <th style={{ padding: "6px 12px", color: "#888", fontWeight: "normal", fontSize: 11 }}>NAME</th>
+                  <th style={{ padding: "6px 12px", color: "#888", fontWeight: "normal", fontSize: 11 }}>FEATURES</th>
                   <th style={{ padding: "6px 12px", color: "#888", fontWeight: "normal", fontSize: 11 }}>PERIOD</th>
                   <th style={{ padding: "6px 12px", color: "#888", fontWeight: "normal", fontSize: 11 }}>FUNCTION</th>
                   <th style={{ padding: "6px 12px", color: "#888", fontWeight: "normal", fontSize: 11 }}></th>
