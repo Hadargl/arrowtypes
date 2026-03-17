@@ -28,7 +28,7 @@ function Field({ l, v }) {
   );
 }
 
-function ArrowImage({ jessop, name }) {
+function ArrowImage({ id, name }) {
   const [missing, setMissing] = useState(false);
 
   if (missing) {
@@ -47,14 +47,14 @@ function ArrowImage({ jessop, name }) {
         textAlign: "center",
         lineHeight: 1.8,
       }}>
-        No image<br />available<br /><br />{jessop}
+        No image<br />available
       </div>
     );
   }
 
   return (
     <img
-      src={`${process.env.PUBLIC_URL}/images/${jessop}.png`}
+      src={`${process.env.PUBLIC_URL}/images/${id}.png`}
       alt={name}
       onError={() => setMissing(true)}
       style={{
@@ -72,9 +72,10 @@ export default function ArrowType() {
 
   useEffect(() => {
     if (!type) return;
-    document.title = `${type.jessop} — ${type.name} | Medieval Arrowheads`;
+    const title = type.jessop || type.lmmc || `Entry ${type.id}`;
+    document.title = `${title} — ${type.name} | Medieval Arrowheads`;
     document.querySelector('meta[name="description"]')
-      ?.setAttribute("content", `${type.jessop} ${type.name}. ${type.description}`);
+      ?.setAttribute("content", `${title} ${type.name}. ${type.description || ""}`);
   }, [type]);
 
   if (!type) return (
@@ -87,6 +88,8 @@ export default function ArrowType() {
   const prev = arrowTypes.find((t) => t.id === type.id - 1);
   const next = arrowTypes.find((t) => t.id === type.id + 1);
 
+  const displayTitle = type.jessop || type.lmmc || `Entry ${type.id}`;
+
   return (
     <div style={{ maxWidth: 860, margin: "60px auto", padding: "0 24px", fontFamily: "monospace" }}>
 
@@ -95,19 +98,19 @@ export default function ArrowType() {
         <span>/</span>
         <Link to="/catalogue" style={{ color: "#888", textDecoration: "none" }}>Catalogue</Link>
         <span>/</span>
-        <span style={{ color: "#111" }}>{type.jessop} — {type.name}</span>
+        <span style={{ color: "#111" }}>{displayTitle} — {type.name}</span>
       </div>
 
       <div style={{ borderBottom: "2px solid #111", paddingBottom: 20, marginBottom: 40 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.15em", color: "#888", marginBottom: 8 }}>
-          {type.group.toUpperCase()} · RECORD {String(type.id).padStart(2, "0")} OF {arrowTypes.length}
+          {type.group ? type.group.toUpperCase() : "UNCLASSIFIED"} · RECORD {String(type.id).padStart(2, "0")} OF {arrowTypes.length}
         </div>
         <h1 style={{ fontSize: 28, fontWeight: "bold", margin: "0 0 12px" }}>
-          {type.jessop} — {type.name}
+          {displayTitle} — {type.name}
         </h1>
         <div style={{ display: "flex", gap: 32, fontSize: 13, color: "#555", flexWrap: "wrap" }}>
-          <span><span style={{ color: "#888" }}>Function: </span>{type.function}</span>
-          <span><span style={{ color: "#888" }}>Period: </span>{type.period}</span>
+          {type.function && <span><span style={{ color: "#888" }}>Function: </span>{type.function}</span>}
+          {type.period && <span><span style={{ color: "#888" }}>Period: </span>{type.period}</span>}
         </div>
       </div>
 
@@ -115,29 +118,35 @@ export default function ArrowType() {
 
         <div>
           <div style={label}>Plan View</div>
-          <ArrowImage key={type.jessop} jessop={type.jessop} name={type.name} /><div style={{ marginTop: 8, fontSize: 10, color: "#aaa", textAlign: "center" }}>
-            {type.jessop}
+          <ArrowImage key={type.id} id={type.id} name={type.name} />
+          <div style={{ marginTop: 8, fontSize: 10, color: "#aaa", textAlign: "center" }}>
+            {displayTitle}
           </div>
         </div>
 
         <div>
-          <Field l="Jessop Type" v={type.jessop} />
+          {type.jessop && <Field l="Jessop Type" v={type.jessop} />}
+          {type.lmmc && <Field l="LMMC" v={type.lmmc} />}
           <Field l="Group" v={type.group} />
           <Field l="Function" v={type.function} />
           <Field l="Date Range" v={type.period} />
           <Field l="Description" v={type.description} />
 
-          <div style={label}>Dimensions</div>
-          <div style={{ ...value, display: "flex", gap: 40 }}>
-            <div>
-              <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Length</div>
-              <div>{type.lengthMin}–{type.lengthMax} mm</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Width</div>
-              <div>{type.widthMin}–{type.widthMax} mm</div>
-            </div>
-          </div>
+          {type.lengthMin && (
+            <>
+              <div style={label}>Dimensions</div>
+              <div style={{ ...value, display: "flex", gap: 40 }}>
+                <div>
+                  <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Length</div>
+                  <div>{type.lengthMin}–{type.lengthMax} mm</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Width</div>
+                  <div>{type.widthMin}–{type.widthMax} mm</div>
+                </div>
+              </div>
+            </>
+          )}
 
           <Field l="Cross Section" v={type.section} />
           <Field l="Hafting" v={type.hafting} />
@@ -155,7 +164,7 @@ export default function ArrowType() {
         <div>
           {prev && (
             <Link to={`/type/${prev.id}`} style={{ color: "#111", textDecoration: "none" }}>
-              ← {prev.jessop} {prev.name}
+              ← {prev.jessop || prev.lmmc || `Entry ${prev.id}`} {prev.name}
             </Link>
           )}
         </div>
@@ -165,7 +174,7 @@ export default function ArrowType() {
         <div>
           {next && (
             <Link to={`/type/${next.id}`} style={{ color: "#111", textDecoration: "none" }}>
-              {next.jessop} {next.name} →
+              {next.jessop || next.lmmc || `Entry ${next.id}`} {next.name} →
             </Link>
           )}
         </div>

@@ -6,7 +6,7 @@ export default function Landing() {
   useEffect(() => {
     arrowTypes.forEach((t) => {
       const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/images/${t.jessop}.png`;
+      img.src = `${process.env.PUBLIC_URL}/images/${t.id}.png`;
     });
   }, []);
 
