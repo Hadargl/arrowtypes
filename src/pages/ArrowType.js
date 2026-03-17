@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import arrowTypes from "../data/arrowTypes";
+import {
+  CLASSIFICATIONS,
+  CLASSIFICATION_ORDER,
+  PRIMARY_CLASSIFICATION,
+  getClassification,
+  getPrimary,
+} from "../config/classifications";
 import "./ArrowType.css";
 
 const label = {
@@ -66,16 +73,24 @@ function ArrowImage({ id, name }) {
   );
 }
 
+function entryTitle(t) {
+  // Primary classification label, e.g. "Type 1", falling back to site id
+  return getPrimary(t) !== "—" ? getPrimary(t) : `Entry ${t.id}`;
+}
+
 export default function ArrowType() {
   const { id } = useParams();
   const type = arrowTypes.find((t) => t.id === parseInt(id));
 
   useEffect(() => {
     if (!type) return;
-    const title = type.jessop || type.lmmc || `Entry ${type.id}`;
-    document.title = `${title} — ${type.name} | Medieval Arrowheads`;
+    const primary = entryTitle(type);
+    document.title = `${primary} — ${type.name} | Medieval Arrowheads`;
     document.querySelector('meta[name="description"]')
-      ?.setAttribute("content", `${title} ${type.name}. ${type.description || ""}`);
+      ?.setAttribute(
+        "content",
+        `${primary} ${type.name}. ${type.description || ""}`
+      );
   }, [type]);
 
   if (!type) return (
@@ -88,25 +103,27 @@ export default function ArrowType() {
   const prev = arrowTypes.find((t) => t.id === type.id - 1);
   const next = arrowTypes.find((t) => t.id === type.id + 1);
 
-  const displayTitle = type.jessop || type.lmmc || `Entry ${type.id}`;
+  const primaryLabel = CLASSIFICATIONS[PRIMARY_CLASSIFICATION].fullLabel;
 
   return (
     <div style={{ maxWidth: 860, margin: "60px auto", padding: "0 24px", fontFamily: "monospace" }}>
 
+      {/* Breadcrumb */}
       <div style={{ marginBottom: 32, fontSize: 12, color: "#888", display: "flex", gap: 12 }}>
         <Link to="/" style={{ color: "#888", textDecoration: "none" }}>Home</Link>
         <span>/</span>
         <Link to="/catalogue" style={{ color: "#888", textDecoration: "none" }}>Catalogue</Link>
         <span>/</span>
-        <span style={{ color: "#111" }}>{displayTitle} — {type.name}</span>
+        <span style={{ color: "#111" }}>{entryTitle(type)} — {type.name}</span>
       </div>
 
+      {/* Header */}
       <div style={{ borderBottom: "2px solid #111", paddingBottom: 20, marginBottom: 40 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.15em", color: "#888", marginBottom: 8 }}>
-          {type.group ? type.group.toUpperCase() : "UNCLASSIFIED"} · RECORD {String(type.id).padStart(2, "0")} OF {arrowTypes.length}
+          {primaryLabel.toUpperCase()} · RECORD {String(type.id).padStart(2, "0")} OF {arrowTypes.length}
         </div>
         <h1 style={{ fontSize: 28, fontWeight: "bold", margin: "0 0 12px" }}>
-          {displayTitle} — {type.name}
+          {entryTitle(type)} — {type.name}
         </h1>
         <div style={{ display: "flex", gap: 32, fontSize: 13, color: "#555", flexWrap: "wrap" }}>
           {type.function && <span><span style={{ color: "#888" }}>Function: </span>{type.function}</span>}
@@ -114,20 +131,43 @@ export default function ArrowType() {
         </div>
       </div>
 
+      {/* Main grid */}
       <div className="type-grid">
 
+        {/* Image column */}
         <div>
           <div style={label}>Plan View</div>
           <ArrowImage key={type.id} id={type.id} name={type.name} />
           <div style={{ marginTop: 8, fontSize: 10, color: "#aaa", textAlign: "center" }}>
-            {displayTitle}
+            {entryTitle(type)}
           </div>
         </div>
 
+        {/* Detail column */}
         <div>
-          {type.jessop && <Field l="Jessop Type" v={type.jessop} />}
-          {type.lmmc && <Field l="LMMC" v={type.lmmc} />}
-          <Field l="Group" v={type.group} />
+
+          {/* Classifications block — rendered from config, primary first */}
+          {CLASSIFICATION_ORDER.map((key) => {
+            const val = getClassification(type, key);
+            if (val === "—") return null;
+            const isPrimary = key === PRIMARY_CLASSIFICATION;
+            return (
+              <div key={key}>
+                <div style={label}>
+                  {CLASSIFICATIONS[key].fullLabel}
+                  {isPrimary && (
+                    <span style={{ marginLeft: 6, color: "#bbb", fontWeight: "normal", letterSpacing: 0, textTransform: "none", fontSize: 9 }}>
+                      primary
+                    </span>
+                  )}
+                </div>
+                <div style={{ ...value, fontWeight: isPrimary ? "bold" : "normal" }}>
+                  {val}
+                </div>
+              </div>
+            );
+          })}
+
           <Field l="Function" v={type.function} />
           <Field l="Date Range" v={type.period} />
           <Field l="Description" v={type.description} />
@@ -138,21 +178,41 @@ export default function ArrowType() {
               <div style={{ ...value, display: "flex", gap: 40 }}>
                 <div>
                   <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Length</div>
-                  <div>{type.lengthMin}–{type.lengthMax} mm</div>
+                  <div>
+                    {type.lengthMin === type.lengthMax
+                      ? `${type.lengthMin} mm`
+                      : `${type.lengthMin}–${type.lengthMax} mm`}
+                  </div>
                 </div>
-                <div>
-                  <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Width</div>
-                  <div>{type.widthMin}–{type.widthMax} mm</div>
-                </div>
+                {type.widthMin && (
+                  <div>
+                    <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Width</div>
+                    <div>
+                      {type.widthMin === type.widthMax
+                        ? `${type.widthMin} mm`
+                        : `${type.widthMin}–${type.widthMax} mm`}
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           )}
 
           <Field l="Cross Section" v={type.section} />
           <Field l="Hafting" v={type.hafting} />
+
+          {/* Citation footer */}
+          <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid #eee" }}>
+            <div style={{ fontSize: 10, color: "#bbb", lineHeight: 1.6 }}>
+              <div>Ward-Perkins, J.B. (1940). <em>London Museum Medieval Catalogue</em>. [primary]</div>
+              <div>Jessop, O. (1996). <em>Medieval Archaeology</em> 40, 192–205. [cross-reference]</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
+      {/* Prev / Next navigation */}
       <div style={{
         marginTop: 64,
         paddingTop: 24,
@@ -164,7 +224,7 @@ export default function ArrowType() {
         <div>
           {prev && (
             <Link to={`/type/${prev.id}`} style={{ color: "#111", textDecoration: "none" }}>
-              ← {prev.jessop || prev.lmmc || `Entry ${prev.id}`} {prev.name}
+              ← {entryTitle(prev)} {prev.name}
             </Link>
           )}
         </div>
@@ -174,7 +234,7 @@ export default function ArrowType() {
         <div>
           {next && (
             <Link to={`/type/${next.id}`} style={{ color: "#111", textDecoration: "none" }}>
-              {next.jessop || next.lmmc || `Entry ${next.id}`} {next.name} →
+              {entryTitle(next)} {next.name} →
             </Link>
           )}
         </div>
