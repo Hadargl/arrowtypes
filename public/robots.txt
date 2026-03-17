@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://arrowtypes.com/sitemap.xml# https://www.robotstxt.org/robotstxt.html
-User-agent: *
-Disallow:
+Sitemap: https://www.arrowtypes.com/sitemap.xml
