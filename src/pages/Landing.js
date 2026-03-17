@@ -21,7 +21,8 @@ export default function Landing() {
         This catalogue includes the 28 Jessop classifications. Each entry includes classification, dimensions,
         cross-section, hafting method, and findspot where known.
       </p>
-      <div style={{ marginTop: 40 }}>
+
+      <div style={{ marginTop: 40, display: "flex", gap: 16, flexWrap: "wrap" }}>
         <Link
           to="/catalogue"
           style={{
@@ -37,7 +38,24 @@ export default function Landing() {
         >
           View Catalogue →
         </Link>
+        <Link
+          to="/timeline"
+          style={{
+            display: "inline-block",
+            padding: "12px 32px",
+            background: "#fff",
+            color: "#111",
+            textDecoration: "none",
+            fontSize: 14,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            border: "1px solid #111",
+          }}
+        >
+          Timeline →
+        </Link>
       </div>
+
       <div style={{ marginTop: 60, paddingTop: 40, borderTop: "1px solid #eee" }}>
         <p style={{ fontSize: 13, color: "#555" }}>
           Have information to contribute, a correction, or a question?
